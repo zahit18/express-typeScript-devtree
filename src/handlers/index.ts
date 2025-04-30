@@ -61,7 +61,7 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const updateProfile = async (req: Request, res: Response) => {
     try {
-        const { description } = req.body
+        const { description, links } = req.body
         const handleSlug = slug(req.body.handle, '')
         const handleExists = await User.findOne({ handle: handleSlug })
         if (handleExists && handleExists.email !== req.user.email) {
@@ -71,6 +71,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 
         req.user.description = description
         req.user.handle = handleSlug
+        req.user.links = links
 
         await req.user.save()
 
